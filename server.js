@@ -109,6 +109,7 @@ let query = mysqlClient.query(sql, (err, results) => {
 });
 });
 
+
 //GET PRODUCT_CATALOG by SEGMENT ... To retrieve product Catalog call this API ...URL/api/getCatalogBySegment/{segment}
 app.get('/api/getCatalogBySegment/price/:id',(req, res) => {
 let sql = "SELECT * FROM XXIBM_PRODUCT_PRICING WHERE SEGMENT="+req.params.id;
