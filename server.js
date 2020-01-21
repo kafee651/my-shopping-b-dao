@@ -103,6 +103,21 @@ app.get('/api/getproducts/price/:id',(req, res) => {
   });
 });
 
+//GET PRODUCT PRICE by PRODUCT_ID ... To retrieve product price call this API ... URL/api/getproducts/price/'Product_id'
+app.get('/api/getproducts/detailsprice/:id',(req, res) => {
+  let sql = "SELECT PRODUCT.ITEM_NUMBER AS ITEM_NUMBER,PRODUCT.DESCRIPTION AS DESCRIPTION,PRODUCT.LONG_DESCRIPTION AS LONG_DESCRIPTION,"+
+  "PRODUCT.CATALOGUE_CATEGORY AS CATALOGUE_CATEGORY,PRODUCT.SKU_UNIT_OF_MEASURE AS SKU_UNIT_OF_MEASURE,"+
+  "PRODUCT.STYLE_ITEM AS STYLE_ITEM,PRODUCT.SKU_ATTRIBUTE1 AS SKU_ATTRIBUTE1,PRODUCT.SKU_ATTRIBUTE2 AS SKU_ATTRIBUTE2,"+
+  "PRODUCT.SKU_ATTRIBUTE_VALUE1 AS SKU_ATTRIBUTE_VALUE1, PRODUCT.SKU_ATTRIBUTE_VALUE2 AS SKU_ATTRIBUTE_VALUE2,"+
+  "PRICING.LIST_PRICE AS LIST_PRICE,PRICING.INSTOCK AS INSTOCK,PRICING.DISCOUNT AS DISCOUNT FROM XXIBM_PRODUCT_SKU"+ 
+  "AS PRODUCT JOIN XXIBM_PRODUCT_PRICING  AS PRICING"+
+  "ON PRODUCT.ITEM_NUMBER = PRICING.ITEM_NUMBER WHERE PRODUCT.ITEM_NUMBER="+req.params.id;
+  console.log(sql);
+  let query = mysqlClient.query(sql, (err, results) => {
+    if(err) throw err;
+    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+  });
+});
 // set port
 app.listen(port, ip);
 
