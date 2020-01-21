@@ -103,6 +103,38 @@ app.get('/api/getproducts/price/:id',(req, res) => {
   });
 });
 
+//--Pradeep starts
+//GET A PRODUCT_CATALOG by COMMODITY ... To retrieve Catalog call this API ... URL/api/getCatalogByCommodity/{Commodity}
+app.get('/api/getCatalogByCommodity/id/:id',(req, res) => {
+let sql = "SELECT * FROM XXIBM_PRODUCT_CATALOG WHERE COMMODITY="+req.params.id;
+console.log(sql);
+let query = mysqlClient.query(sql, (err, results) => {
+  if(err) throw err;
+  res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+});
+});
+
+
+//GET PRODUCT_CATALOG by SEGMENT ... To retrieve product Catalog call this API ...URL/api/getCatalogBySegment/{segment}
+app.get('/api/getCatalogBySegment/price/:id',(req, res) => {
+let sql = "SELECT * FROM XXIBM_PRODUCT_CATALOG WHERE SEGMENT="+req.params.id;
+console.log(sql);
+let query = mysqlClient.query(sql, (err, results) => {
+  if(err) throw err;
+  res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+});
+});
+
+//GET XXIBM_PRODUCT_STYLE by SEGMENT ... To retrieve product Catalog call this API ...URL/api/getProductStyleByItemno/{item_number}
+app.get('/api/getProductStyleByItemno/price/:id',(req, res) => {
+let sql = "SELECT * FROM XXIBM_PRODUCT_STYLE WHERE ITEM_NUMBER="+req.params.id;
+console.log(sql);
+let query = mysqlClient.query(sql, (err, results) => {
+  if(err) throw err;
+  res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+});
+});
+
 // set port
 app.listen(port, ip);
 
