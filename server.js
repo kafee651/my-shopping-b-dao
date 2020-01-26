@@ -75,7 +75,7 @@ console.log(sql);
 
 //GET A PRODUCT by DESCRIPTION ... To retrieve all all products call this API ... URL/api/getproducts/'Description'
 app.get('/api/getproducts/desc/:desc',(req, res) => {
-  let sql = "SELECT * FROM XXIBM_PRODUCT_SKU WHERE DESCRIPTION LIKE '%" + req.params.desc + "%'";
+  let sql = "SELECT * FROM XXIBM_PRODUCT_SKU WHERE LOWER(DESCRIPTION) LIKE '%" + req.params.desc + "%'";
   console.log(sql);
   let query = mysqlClient.query(sql, (err, results) => {
     if(err) throw err;
