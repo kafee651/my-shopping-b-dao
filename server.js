@@ -103,9 +103,19 @@ app.get('/api/getproducts/price/:id',(req, res) => {
   });
 });
 
-//GET PRODUCT PRICE by PRODUCT_ID ... To retrieve product price call this API ... URL/api/getproducts/price/'Product_id'
+//GET PRODUCT Style by Style_ID ... 
 app.get('/api/getproducts/style/:id',(req, res) => {
-  let sql = "SELECT * FROM XXIBM_PRODUCT_STYLE WHERE ITEM_NUMBER="+req.params.id;// WHERE PRODUCT.ITEM_NUMBER="+req.params.id;
+  let sql = "SELECT * FROM XXIBM_PRODUCT_STYLE WHERE ITEM_NUMBER="+req.params.id;
+  console.log(sql);
+  let query = mysqlClient.query(sql, (err, results) => {
+    if(err) throw err;
+    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+  });
+});
+
+//GET PRODUCT CATALOG by Commodity ... 
+app.get('/api/getproducts/catalog/:id',(req, res) => {
+  let sql = "SELECT * FROM XXIBM_PRODUCT_CATALOG WHERE COMMODITY="+req.params.id;// 
   console.log(sql);
   let query = mysqlClient.query(sql, (err, results) => {
     if(err) throw err;
