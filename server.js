@@ -103,6 +103,16 @@ app.get('/api/getproducts/price/:id',(req, res) => {
   });
 });
 
+//GET ALL PRODUCT PRICE... To retrieve product price call this API ... URL/api/getproducts/price/
+app.get('/api/getproducts/price/',(req, res) => {
+  let sql = "SELECT * FROM XXIBM_PRODUCT_PRICING";
+  console.log(sql);
+  let query = mysqlClient.query(sql, (err, results) => {
+    if(err) throw err;
+    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+  });
+});
+
 //GET PRODUCT Style by Style_ID ... 
 app.get('/api/getproducts/style/:id',(req, res) => {
   let sql = "SELECT * FROM XXIBM_PRODUCT_STYLE WHERE ITEM_NUMBER="+req.params.id;
