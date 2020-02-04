@@ -44,10 +44,19 @@ var mysqlDb = 'sampledb';
 //form the connection string to connect to mysql - you can connect directly too 
 var mysqlString = 'mysql://' + mysqlUser + ':' + mysqlPass + '@' + mysqlHost + ':' + mysqlPort + '/' + mysqlDb;
 console.log(mysqlString);
-
+var mysqlClient = mysql.createConnection({
+    host: mysqlHost,
+    user: mysqlUser,
+    password: mysqlPass,
+    database: mysqlDb,
+    debug: false,
+    port: mysqlPort,
+    multipleStatements: true
+});
 
 //connect to mysql/sampledb database
-var mysqlClient = mysql.createConnection(mysqlString);
+//var connection = mysql.createConnection({multipleStatements: true});
+//var mysqlClient = mysql.createConnection(mysqlString);
 mysqlClient.connect(function (err) {
     if (err) console.log(err);
 });
@@ -75,7 +84,12 @@ console.log(sql);
 
 //GET A PRODUCT by DESCRIPTION ... To retrieve all all products call this API ... URL/api/getproducts/'Description'
 app.get('/api/getproducts/desc/:desc',(req, res) => {
-  let sql = "SELECT * FROM XXIBM_PRODUCT_SKU WHERE LOWER(DESCRIPTION) LIKE '%" + req.params.desc + "%'";
+  var reqs = req.params.desc.split(" ");
+  var i;
+  let sql = "SELECT * FROM XXIBM_PRODUCT_SKU WHERE LOWER(DESCRIPTION) LIKE '%" + reqs[0] + "%' ;";
+  for (i = 1; i < reqs.length; i++) {
+  sql += "SELECT * FROM XXIBM_PRODUCT_SKU WHERE LOWER(DESCRIPTION) LIKE '%" + reqs[i] + "%' ;";
+} 
   console.log(sql);
   let query = mysqlClient.query(sql, (err, results) => {
     if(err) throw err;
