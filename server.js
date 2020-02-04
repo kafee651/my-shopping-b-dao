@@ -86,17 +86,14 @@ console.log(sql);
 app.get('/api/getproducts/desc/:desc',(req, res) => {
   var reqs = req.params.desc.split(" ");
   var i;
-  let sql = "SELECT * FROM XXIBM_PRODUCT_SKU WHERE LOWER(DESCRIPTION) LIKE '%" + reqs[0] + "%' ;";
+  let sql = "SELECT * FROM XXIBM_PRODUCT_SKU WHERE LOWER(DESCRIPTION) LIKE '%" + reqs[0] + "%' ";
   for (i = 1; i < reqs.length; i++) {
-  sql += "SELECT * FROM XXIBM_PRODUCT_SKU WHERE LOWER(DESCRIPTION) LIKE '%" + reqs[i] + "%' ;";
+  sql += " OR LOWER(DESCRIPTION) LIKE '%" + reqs[i] + "%' ";
 } 
   console.log(sql);
   let query = mysqlClient.query(sql, (err, results) => {
     if(err) throw err;
-    if(reqs.length > 1)
-    	res.send(JSON.stringify({"status": 200, "error": null, "response": results[0]}));
-    else
-	res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
   });
 });
 
