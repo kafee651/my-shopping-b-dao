@@ -93,7 +93,10 @@ app.get('/api/getproducts/desc/:desc',(req, res) => {
   console.log(sql);
   let query = mysqlClient.query(sql, (err, results) => {
     if(err) throw err;
-    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+    if(reqs.length > 1)
+    	res.send(JSON.stringify({"status": 200, "error": null, "response": results[0]}));
+    else
+	res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
   });
 });
 
