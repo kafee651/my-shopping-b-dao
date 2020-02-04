@@ -100,7 +100,7 @@ app.get('/api/getproducts/desc/:desc',(req, res) => {
 	}	
 	}
 	
-  let sql = "SELECT * FROM XXIBM_PRODUCT_SKU WHERE LOWER(DESCRIPTION) IN '(" + arrEl + ")'";
+  let sql = "SELECT * FROM XXIBM_PRODUCT_SKU WHERE LOWER(DESCRIPTION) LIKE '%" + arrEl + "%'";
   console.log(sql);
   let query = mysqlClient.query(sql, (err, results) => {
     if(err) throw err;
