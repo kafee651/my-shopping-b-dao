@@ -84,22 +84,23 @@ console.log(sql);
 
 //GET A PRODUCT by DESCRIPTION ... To retrieve all all products call this API ... URL/api/getproducts/'Description'
 app.get('/api/getproducts/desc/:desc',(req, res) => {
-  var reqs = req.params.desc.split(" ");
-  var i;
-  let sql = "SELECT * FROM XXIBM_PRODUCT_SKU WHERE LOWER(DESCRIPTION) LIKE '%" + reqs[0] + "%' ";
-  for (i = 1; i < reqs.length; i++) {
-  sql += " OR LOWER(DESCRIPTION) LIKE '%" + reqs[i] + "%' ";
-} 
-  console.log(sql);
-  let query = mysqlClient.query(sql, (err, results) => {
-    if(err) throw err;
-    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
-  });
-});
-
-//GET A PRODUCT by PRODUCT_ID ... To retrieve all all products call this API ... URL/api/getproducts/'Product_id'
-app.get('/api/getproducts/id/:id',(req, res) => {
-  let sql = "SELECT * FROM XXIBM_PRODUCT_SKU WHERE ITEM_NUMBER="+req.params.id;
+	
+	var str = req.params.desc;
+	var arr  = str.split(" ",5); 
+	
+	var arrEl = "";	
+	if(arr.length>0){	
+	for(var i=0;i<arr.length;i++) {
+		
+		if(!(i==arrlength-1))	        
+			arrEl=arrEl+arr[i] +",";
+		else
+			arrEl=arrEl+arr[i];
+		
+	}	
+	}
+	
+  let sql = "SELECT * FROM XXIBM_PRODUCT_SKU WHERE LOWER(DESCRIPTION) LIKE '%" + arrEl + "%'";
   console.log(sql);
   let query = mysqlClient.query(sql, (err, results) => {
     if(err) throw err;
